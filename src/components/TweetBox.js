@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 
 import {
@@ -7,12 +8,32 @@ import {
   PollIcon,
   ScheduleIcon,
 } from "../icons/icon";
+import db from '../firebase';
+import firebase from 'firebase'
 
 const TweetBox = () => {
   const [content, setContent] = useState("");
 
-  const sendTweet = () => {}
+  const sendTweet = () => {
 
+    if(content !== ''){
+
+      db.collection('feed').add({
+        displayName : "Ali Atakan AKMAN",
+        username : "@akmanaatakan",
+        content,
+        timestamp : firebase.firestore.FieldValue.serverTimestamp(),
+        image : "https://images.unsplash.com/photo-1620451955631-9a2ba4736e56?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxMXx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+        avatar : "https://pbs.twimg.com/profile_images/1301307553960407045/J7tCf0ax_400x400.jpg"
+      })
+
+      setContent("");
+
+    }
+
+
+
+  }
   return (
     <div className="flex-1 flex flex-col mt-2 px-2">
       <textarea
@@ -40,7 +61,7 @@ const TweetBox = () => {
           </div>
         </div>
         <button className="bg-primary-base text-white rounded-full px-4 py-2 font-medium"
-        onClick = {() => sendTweet}
+        onClick = {sendTweet}
         >
           Tweet
         </button>
